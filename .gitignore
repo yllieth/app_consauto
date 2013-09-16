@@ -1,0 +1,9 @@
+.directory
+.gradle
+/local.properties
+/.idea/workspace.xml
+.DS_Store
+gradlew.bat
+*.class
+*.apk
+Consauto/build
