@@ -11,4 +11,5 @@
     <!-- PARAMETRES PAR DEFAUT -->
     <string name="pref_defaults_carburant_titre">Carburant utilisé</string>
     <string name="pref_defaults_carburant_defaut">Sans plomb 95</string>
+    <string name="new_plein_distance">Distance :</string>
 </resources>

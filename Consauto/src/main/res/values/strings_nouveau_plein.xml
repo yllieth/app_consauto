@@ -1,0 +1,17 @@
+<resources>
+    <string name="nouveau_plein_">Carburant utilisé</string>
+    <string name="new_plein_titre">Ajouter un nouveau plein :</string>
+    <string name="new_plein_date">Date :</string>
+    <string name="new_plein_quantite">Quantité :</string>
+    <string name="new_plein_quantite_help">Litres</string>
+    <string name="new_plein_prix">Prix :</string>
+    <string name="new_plein_prix_help">Euros</string>
+    <string name="new_plein_more">Informations complémentaires ...</string>
+    <string name="new_plein_distance_help">km</string>
+    <string name="new_plein_conso">Conso. :</string>
+    <string name="new_plein_conso_help">l/100</string>
+    <string name="new_plein_prixLitre">Prix au litre :</string>
+    <string name="new_plein_prixLitre_help">Euros</string>
+    <string name="new_plein_ras_bord">Plein à ras-bord ?</string>
+    <string name="new_plein_enregistrer">Enregistrer</string>
+</resources>

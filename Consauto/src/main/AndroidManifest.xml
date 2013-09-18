@@ -26,6 +26,10 @@
             android:name="SettingsActivity"
             android:label="@string/action_settings" >
         </activity>
+        <activity
+            android:name="FaireLePleinActivity"
+            android:label="@string/action_faireLePlein"
+        />
     </application>
 
 </manifest>

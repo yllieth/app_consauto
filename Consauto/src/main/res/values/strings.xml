@@ -3,6 +3,7 @@
 
     <string name="app_name">consauto</string>
     <string name="action_settings">Paramètres</string>
+    <string name="action_faireLePlein">Nouveau plein</string>
     <string name="hello_world">Hello world!</string>
 
     <string name="pref_header_defaults">Paramètres par défaut</string>
