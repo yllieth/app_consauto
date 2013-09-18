@@ -41,8 +41,10 @@
                 android:layout_height="wrap_content"
                 android:inputType="date"
                 android:ems="10"
-                android:id="@+id/nb_new_plein_quantite"
-                android:layout_column="1" />
+                android:id="@+id/date_new_plein_date"
+                android:layout_column="1"
+                android:clickable="true"
+                android:onClick="showDatePickerDialog"/>
         </TableRow>
 
         <TableRow

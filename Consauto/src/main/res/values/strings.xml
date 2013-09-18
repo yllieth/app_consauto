@@ -8,4 +8,6 @@
 
     <string name="pref_header_defaults">Paramètres par défaut</string>
 
+	<!-- formats -->
+	<string name="format_date_standard">dd / MM / yyyy</string>
 </resources>
