@@ -9,14 +9,22 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.Toast;
 
 import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Permet d'enregistrer un nouveau plein
@@ -24,6 +32,35 @@ import java.util.Date;
  * @author Sylvain{17/09/2013}
  */
 public class FaireLePleinActivity extends Activity {
+
+    private EditText editDate;
+    private EditText editPrix;
+    private EditText editQuantite;
+    private EditText editPrixLitre;
+    private EditText editDistance;
+    private EditText editConsommation;
+    private CheckBox chkComplet;
+    private Button bt_enregistrer;
+    private ConnexionBDD connexion;
+
+    private void init() {
+        // connexion à la base de données
+        connexion = new ConnexionBDD(this);
+
+        // champs text
+        editDate         = (EditText) findViewById(R.id.date_new_plein_date);
+        editPrix         = (EditText) findViewById(R.id.nb_new_plein_prix);
+        editQuantite     = (EditText) findViewById(R.id.nb_new_plein_quantite);
+        editPrixLitre    = (EditText) findViewById(R.id.nb_new_plein_prixLitre);
+        editDistance     = (EditText) findViewById(R.id.nb_new_plein_distance);
+        editConsommation = (EditText) findViewById(R.id.nb_new_plein_conso);
+
+        // cases à cocher
+        chkComplet = (CheckBox) findViewById(R.id.chk_new_plein_complet);
+
+        // boutons
+        bt_enregistrer = (Button) findViewById(R.id.bt_new_plein_save);
+    }
 
     private void updatePrixLitre(EditText editPrix, EditText editQuantite, EditText editPrixLitre) {
         if (editPrix.getText().length() > 0 && editQuantite.getText().length() > 0) {
@@ -35,11 +72,31 @@ public class FaireLePleinActivity extends Activity {
         }
     }
 
+    private float getFloatValueFrom(EditText editText, String tag) {
+        return Float.parseFloat
+            (
+                editText.getText().toString().equals("")
+                    ? "-1"
+                    : editText.getText().toString()
+            );
+    }
+
+    private Date getDateValueFrom(EditText editText) {
+        try {
+            return new SimpleDateFormat(getString(R.string.format_date_standard)).parse(editDate.getText().toString());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.nouveau_plein);
 
+        init();
         defaults();
         listeners();
     }
@@ -49,7 +106,7 @@ public class FaireLePleinActivity extends Activity {
     // #############################################################################################
 
     public void defaults() {
-        EditText editDate = (EditText) findViewById(R.id.date_new_plein_date);
+        // date d'aujourd'hui
         editDate.setText(new SimpleDateFormat(getString(R.string.format_date_standard)).format(new Date()));
     }
 
@@ -58,10 +115,6 @@ public class FaireLePleinActivity extends Activity {
     // #############################################################################################
 
     public void listeners() {
-        final EditText editPrix = (EditText) findViewById(R.id.nb_new_plein_prix);
-        final EditText editQuantite = (EditText) findViewById(R.id.nb_new_plein_quantite);
-        final EditText editPrixLitre = (EditText) findViewById(R.id.nb_new_plein_prixLitre);
-
         // calcul du prix au litre par modification de la quantité
         editQuantite.addTextChangedListener(new TextWatcher() {
             public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {}
@@ -74,6 +127,26 @@ public class FaireLePleinActivity extends Activity {
             public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {}
             public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {}
             public void afterTextChanged(Editable editable) { updatePrixLitre(editPrix, editQuantite, editPrixLitre);}
+        });
+
+        // enregistrement du formulaire
+        bt_enregistrer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                RecordPlein plein = new RecordPlein();
+
+                plein.setDate(getDateValueFrom(editDate))
+                     .setQuantite(getFloatValueFrom(editQuantite, "quantite"))
+                     .setPrix(getFloatValueFrom(editPrix, "prix"))
+                     .setDistance(getFloatValueFrom(editDistance, "distance"))
+                     .setConsommation(getFloatValueFrom(editConsommation, "consommation"))
+                     .setPlein((chkComplet.isChecked()) ? true : false);
+
+                RecordPleinHandler handler = new RecordPleinHandler(connexion);
+                boolean isSuccess = handler.save(plein);
+
+                Toast.makeText(view.getContext(), getString((isSuccess) ? R.string.new_plein_saved_success : R.string.new_plein_saved_error), Toast.LENGTH_SHORT);
+            }
         });
     }
 

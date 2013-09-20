@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 public class MainActivity extends Activity {
 
@@ -14,6 +15,17 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        ConnexionBDD connexionBDD = new ConnexionBDD(this);
+        RecordPleinHandler handler = new RecordPleinHandler(connexionBDD);
+        int count = handler.count();
+
+        TextView txt = (TextView) findViewById(R.id.txt_home);
+        txt.setText("Nombre d'enregistrements : " + count);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
