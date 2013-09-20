@@ -30,6 +30,10 @@
             android:name="FaireLePleinActivity"
             android:label="@string/action_faireLePlein"
         />
+	    <activity
+		    android:name=".ListeActivity"
+	        android:label="Liste"
+		/>
     </application>
 
 </manifest>

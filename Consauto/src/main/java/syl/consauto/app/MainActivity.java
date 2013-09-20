@@ -46,6 +46,10 @@ public class MainActivity extends Activity {
                 startActivity(new Intent(this, FaireLePleinActivity.class));
                 return true;
 
+            case R.id.action_liste:
+                startActivity(new Intent(this, ListeActivity.class));
+                return true;
+
         }
         return false;
     }
