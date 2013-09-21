@@ -48,7 +48,7 @@
 			    android:onClick="showDatePickerDialog"/>
 	    </TableRow>
 
-        <TableRow
+	    <TableRow
             android:layout_width="fill_parent"
             android:layout_height="fill_parent">
 
@@ -138,6 +138,26 @@
                 android:layout_column="2"
                 android:layout_marginLeft="5dp" />
         </TableRow>
+
+	    <TableRow
+		    android:layout_width="fill_parent"
+		    android:layout_height="fill_parent">
+
+		    <TextView
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:textAppearance="?android:attr/textAppearanceSmall"
+			    android:text="@string/new_plein_choix_carburant"
+			    android:id="@+id/txt_new_plein_choix_carburant"
+			    android:layout_column="0" />
+
+		    <Spinner
+			    android:id="@+id/spin_choix_carburant"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_column="1" />
+
+	    </TableRow>
 
     </TableLayout>
 

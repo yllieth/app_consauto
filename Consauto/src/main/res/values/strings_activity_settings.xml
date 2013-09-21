@@ -1,12 +1,12 @@
 <resources>
     <!-- GLOBAL -->
-    <string-array name="liste_carburants">
-        <item>Sans plomb 95</item>
-        <item>Sans plomb 95 E10</item>
-        <item>Sans plomb 98</item>
-        <item>Gazoil</item>
-        <item>GPL</item>
-    </string-array>
+	<string-array name="liste_carburants">
+		<item>Sans plomb 95</item>
+		<item>Sans plomb 95 E10</item>
+		<item>Sans plomb 98</item>
+		<item>Gazoil</item>
+		<item>GPL</item>
+	</string-array>
 
     <!-- PARAMETRES PAR DEFAUT -->
     <string name="pref_defaults_carburant_titre">Carburant utilisé</string>

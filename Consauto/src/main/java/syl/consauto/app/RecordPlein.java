@@ -14,6 +14,7 @@ public class RecordPlein {
 
     private int id;
     private Date date;
+    private String carburant;
     private float quantite;
     private float prix;
     private float distance;
@@ -27,10 +28,11 @@ public class RecordPlein {
     RecordPlein(){}
 
     RecordPlein(Cursor c) {
-        setId(      c.getInt(RecordPleinHandler.NUM_FIELD_ID));
-        setDate(    c.getString(RecordPleinHandler.NUM_FIELD_DATE));
-        setQuantite(c.getInt(RecordPleinHandler.NUM_FIELD_QUANTITE     / RecordPleinHandler.STORAGE_COEFF_QUANTITE));       // (float) 5.12 litres est stocké (int) 512
-        setPrix(    c.getInt(RecordPleinHandler.NUM_FIELD_PRIX         / RecordPleinHandler.STORAGE_COEFF_PRIX));           // (float) 5.12 euros est stocké (int) 512
+        setId(       c.getInt(RecordPleinHandler.NUM_FIELD_ID));
+        setDate(     c.getString(RecordPleinHandler.NUM_FIELD_DATE));
+        setCarburant(c.getString(RecordPleinHandler.NUM_FIELD_CARBURANT));
+        setQuantite( c.getInt(RecordPleinHandler.NUM_FIELD_QUANTITE     / RecordPleinHandler.STORAGE_COEFF_QUANTITE));       // (float) 5.12 litres est stocké (int) 512
+        setPrix(     c.getInt(RecordPleinHandler.NUM_FIELD_PRIX         / RecordPleinHandler.STORAGE_COEFF_PRIX));           // (float) 5.12 euros est stocké (int) 512
 
         if (c != null)
             setDistance(    c.getInt(RecordPleinHandler.NUM_FIELD_DISTANCE     / RecordPleinHandler.STORAGE_COEFF_DISTANCE));       // (float) 5.12 km est stocké (int) 512
@@ -86,6 +88,15 @@ public class RecordPlein {
 
     public RecordPlein setDate(Date date) {
         this.date = date;
+        return this;
+    }
+
+    public String getCarburant() {
+        return carburant;
+    }
+
+    public RecordPlein setCarburant(String carburant) {
+        this.carburant = carburant;
         return this;
     }
 

@@ -24,24 +24,27 @@ public class RecordPleinHandler {
     public static final String FIELD_DATE = "Date";
     public static final int NUM_FIELD_DATE = 1;
 
+    public static final String FIELD_CARBURANT = "Carburant";
+    public static final int NUM_FIELD_CARBURANT = 2;
+
     public static final String FIELD_QUANTITE = "Quantite";
-    public static final int NUM_FIELD_QUANTITE = 2;
+    public static final int NUM_FIELD_QUANTITE = 3;
     public static final int STORAGE_COEFF_QUANTITE = 100;
 
     public static final String FIELD_PRIX = "Prix";
-    public static final int NUM_FIELD_PRIX = 3;
+    public static final int NUM_FIELD_PRIX = 4;
     public static final int STORAGE_COEFF_PRIX = 100;
 
     public static final String FIELD_DISTANCE = "Distance";
-    public static final int NUM_FIELD_DISTANCE = 4;
+    public static final int NUM_FIELD_DISTANCE = 5;
     public static final int STORAGE_COEFF_DISTANCE = 100;
 
     public static final String FIELD_CONSOMMATION = "Consommation";
-    public static final int NUM_FIELD_CONSOMMATION = 5;
+    public static final int NUM_FIELD_CONSOMMATION = 6;
     public static final int STORAGE_COEFF_CONSOMMATION = 10;
 
     public static final String FIELD_IS_PLEIN = "Plein";
-    public static final int NUM_FIELD_IS_PLEIN = 6;
+    public static final int NUM_FIELD_IS_PLEIN = 7;
 
     // #############################################################################################
     // ###                                      CONSTRUCTEURS                                    ###
@@ -55,6 +58,7 @@ public class RecordPleinHandler {
         return "CREATE TABLE " + TABLE_NAME + " ("
                 + FIELD_ID           + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + FIELD_DATE         + " TEXT NOT NULL, "
+                + FIELD_CARBURANT    + " TEXT NOT NULL, "
                 + FIELD_QUANTITE     + " INTEGER NOT NULL, "
                 + FIELD_PRIX         + " INTEGER NOT NULL, "
                 + FIELD_DISTANCE     + " INTEGER, "
@@ -82,6 +86,7 @@ public class RecordPleinHandler {
         return new String[] {
             FIELD_ID,
             FIELD_DATE,
+            FIELD_CARBURANT,
             FIELD_QUANTITE,
             FIELD_PRIX,
             FIELD_DISTANCE,
@@ -102,6 +107,7 @@ public class RecordPleinHandler {
         ContentValues values = new ContentValues();
 
         values.put(FIELD_DATE,     record.getFormattedDate());
+        values.put(FIELD_CARBURANT,record.getCarburant());
         values.put(FIELD_QUANTITE, Math.round(record.getQuantite()) * STORAGE_COEFF_QUANTITE);
         values.put(FIELD_PRIX,     Math.round(record.getPrix()) * STORAGE_COEFF_PRIX);
 
@@ -187,6 +193,7 @@ public class RecordPleinHandler {
         return "SELECT " +
                 FIELD_ID + " AS _id" + ", " +
                 FIELD_DATE + ", " +
+                FIELD_CARBURANT + ", " +
                 FIELD_QUANTITE + ", " +
                 FIELD_PRIX + ", " +
                 FIELD_DISTANCE + ", " +

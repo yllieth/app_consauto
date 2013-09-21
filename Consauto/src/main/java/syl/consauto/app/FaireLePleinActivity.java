@@ -17,6 +17,7 @@ import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.text.DecimalFormat;
@@ -34,6 +35,7 @@ import java.util.List;
 public class FaireLePleinActivity extends Activity {
 
     private EditText editDate;
+    private Spinner spinChoixCarburant;
     private EditText editPrix;
     private EditText editQuantite;
     private EditText editPrixLitre;
@@ -54,6 +56,9 @@ public class FaireLePleinActivity extends Activity {
         editPrixLitre    = (EditText) findViewById(R.id.nb_new_plein_prixLitre);
         editDistance     = (EditText) findViewById(R.id.nb_new_plein_distance);
         editConsommation = (EditText) findViewById(R.id.nb_new_plein_conso);
+
+        // listes déroulantes
+        spinChoixCarburant = (Spinner) findViewById(R.id.spin_choix_carburant);
 
         // cases à cocher
         chkComplet = (CheckBox) findViewById(R.id.chk_new_plein_complet);
@@ -108,6 +113,12 @@ public class FaireLePleinActivity extends Activity {
     public void defaults() {
         // date d'aujourd'hui
         editDate.setText(new SimpleDateFormat(getString(R.string.format_date_standard)).format(new Date()));
+
+        // liste des carburants
+        Spinner spinner = (Spinner) findViewById(R.id.spin_choix_carburant);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.liste_carburants, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item );
+        spinner.setAdapter(adapter);
     }
 
     // #############################################################################################
@@ -136,6 +147,7 @@ public class FaireLePleinActivity extends Activity {
                 RecordPlein plein = new RecordPlein();
 
                 plein.setDate(getDateValueFrom(editDate))
+                     .setCarburant(spinChoixCarburant.getSelectedItem().toString())
                      .setQuantite(getFloatValueFrom(editQuantite, "quantite"))
                      .setPrix(getFloatValueFrom(editPrix, "prix"))
                      .setDistance(getFloatValueFrom(editDistance, "distance"))
@@ -144,8 +156,6 @@ public class FaireLePleinActivity extends Activity {
 
                 RecordPleinHandler handler = new RecordPleinHandler(connexion);
                 boolean isSuccess = handler.save(plein);
-
-                Toast.makeText(view.getContext(), getString((isSuccess) ? R.string.new_plein_saved_success : R.string.new_plein_saved_error), Toast.LENGTH_SHORT);
             }
         });
     }
