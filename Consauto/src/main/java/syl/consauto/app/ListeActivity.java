@@ -36,13 +36,15 @@ public class ListeActivity extends Activity {
                 RecordPleinHandler.FIELD_DATE,
                 RecordPleinHandler.FIELD_PRIX,
                 RecordPleinHandler.FIELD_CARBURANT,
-                RecordPleinHandler.FIELD_CONSOMMATION
+                RecordPleinHandler.FIELD_CONSOMMATION,
+                RecordPleinHandler.FIELD_DISTANCE
         };
         int[] toListView = new int[]{
                 R.id.liste_pleins_item_date,
                 R.id.liste_pleins_item_prix,
                 R.id.liste_pleins_item_carburant,
-                R.id.liste_pleins_item_consommation
+                R.id.liste_pleins_item_consommation,
+                R.id.liste_pleins_item_distance
         };
 
         // formatage des valeurs
@@ -58,9 +60,6 @@ public class ListeActivity extends Activity {
             @Override
             public boolean setViewValue(View view, Cursor cursor, int column) {
                 TextView textView = (TextView) view;
-                DecimalFormat formatter1 = new DecimalFormat("0.0");
-                DecimalFormat formatter2 = new DecimalFormat("0.00");
-                DecimalFormat formatter3 = new DecimalFormat("0.000");
 
                 if (column == RecordPleinHandler.NUM_FIELD_PRIX) {
                     float prix = Float.parseFloat(cursor.getString(column));
@@ -73,6 +72,14 @@ public class ListeActivity extends Activity {
                     if (cursor.getString(column) != null) {
                         float conso = Float.parseFloat(cursor.getString(column));
                         textView.setText(String.valueOf(conso / RecordPleinHandler.STORAGE_COEFF_CONSOMMATION) + " l/100");
+                    } else {
+                        textView.setText("");
+                    }
+                    return true;
+                } else if (column == RecordPleinHandler.NUM_FIELD_DISTANCE) {
+                    if (cursor.getString(column) != null) {
+                        float distance = Float.parseFloat(cursor.getString(column));
+                        textView.setText(String.valueOf(distance / RecordPleinHandler.STORAGE_COEFF_DISTANCE) + " km");
                     } else {
                         textView.setText("");
                     }
