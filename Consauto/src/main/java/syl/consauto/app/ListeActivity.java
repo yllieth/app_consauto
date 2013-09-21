@@ -9,8 +9,6 @@ import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
-import java.text.DecimalFormat;
-
 public class ListeActivity extends Activity {
 
     // #############################################################################################
@@ -50,7 +48,7 @@ public class ListeActivity extends Activity {
         // formatage des valeurs
         SimpleCursorAdapter adapter = new SimpleCursorAdapter(
                 this,               // context
-                R.layout.liste_pleins_item, // layout (modèle) d'une ligne de la liste
+                R.layout.item_liste_pleins, // layout (modèle) d'une ligne de la liste
                 cursor,             // requête
                 fromFieldNames,     // valeurs de la base de données
                 toListView          // identifiants du layout qui va recevoir les données

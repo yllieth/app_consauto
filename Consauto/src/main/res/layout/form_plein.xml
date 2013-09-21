@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -10,8 +9,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/new_plein_titre"
-        android:id="@+id/txt_new_plein"
+        android:text="@string/form_plein_titre"
+        android:id="@+id/txt_form_plein"
         android:layout_gravity="center_vertical"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
@@ -32,8 +31,8 @@
 			    android:layout_width="wrap_content"
 			    android:layout_height="wrap_content"
 			    android:textAppearance="?android:attr/textAppearanceSmall"
-			    android:text="@string/new_plein_date"
-			    android:id="@+id/txt_new_plein_date"
+			    android:text="@string/form_plein_date"
+			    android:id="@+id/txt_form_plein_date"
 			    android:layout_column="0"
 			    android:autoText="false" />
 
@@ -42,7 +41,7 @@
 			    android:layout_height="wrap_content"
 			    android:inputType="date"
 			    android:ems="10"
-			    android:id="@+id/date_new_plein_date"
+			    android:id="@+id/date_form_plein_date"
 			    android:layout_column="1"
 			    android:clickable="true"
 			    android:onClick="showDatePickerDialog"/>
@@ -56,8 +55,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="@string/new_plein_quantite"
-                android:id="@+id/txt_new_plein_quantite"
+                android:text="@string/form_plein_quantite"
+                android:id="@+id/txt_form_plein_quantite"
                 android:layout_column="0" />
 
             <EditText
@@ -65,15 +64,15 @@
                 android:layout_height="wrap_content"
                 android:inputType="numberDecimal"
                 android:ems="10"
-                android:id="@+id/nb_new_plein_quantite"
+                android:id="@+id/nb_form_plein_quantite"
                 android:layout_column="1" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="@string/new_plein_quantite_help"
-                android:id="@+id/txt_new_plein_quantite_help"
+                android:text="@string/form_plein_quantite_help"
+                android:id="@+id/txt_form_plein_quantite_help"
                 android:layout_column="2"
                 android:layout_marginLeft="5dp" />
         </TableRow>
@@ -86,8 +85,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="@string/new_plein_prix"
-                android:id="@+id/txt_new_plein_prix"
+                android:text="@string/form_plein_prix"
+                android:id="@+id/txt_form_plein_prix"
                 android:layout_column="0" />
 
             <EditText
@@ -95,15 +94,15 @@
                 android:layout_height="wrap_content"
                 android:inputType="numberDecimal"
                 android:ems="10"
-                android:id="@+id/nb_new_plein_prix"
+                android:id="@+id/nb_form_plein_prix"
                 android:layout_column="1" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="@string/new_plein_prix_help"
-                android:id="@+id/txt_new_plein_prix_help"
+                android:text="@string/form_plein_prix_help"
+                android:id="@+id/txt_form_plein_prix_help"
                 android:layout_column="2"
                 android:layout_marginLeft="5dp" />
         </TableRow>
@@ -116,8 +115,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="@string/new_plein_prixLitre"
-                android:id="@+id/txt_new_plein_prixLitre"
+                android:text="@string/form_plein_prixLitre"
+                android:id="@+id/txt_form_plein_prixLitre"
                 android:layout_column="0" />
 
             <EditText
@@ -125,7 +124,7 @@
                 android:layout_height="wrap_content"
                 android:inputType="numberDecimal"
                 android:ems="10"
-                android:id="@+id/nb_new_plein_prixLitre"
+                android:id="@+id/nb_form_plein_prixLitre"
                 android:layout_column="1"
                 android:enabled="false" />
 
@@ -133,8 +132,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="@string/new_plein_prixLitre_help"
-                android:id="@+id/txt_new_plein_prixLitre_help"
+                android:text="@string/form_plein_prixLitre_help"
+                android:id="@+id/txt_form_plein_prixLitre_help"
                 android:layout_column="2"
                 android:layout_marginLeft="5dp" />
         </TableRow>
@@ -147,12 +146,12 @@
 			    android:layout_width="wrap_content"
 			    android:layout_height="wrap_content"
 			    android:textAppearance="?android:attr/textAppearanceSmall"
-			    android:text="@string/new_plein_choix_carburant"
-			    android:id="@+id/txt_new_plein_choix_carburant"
+			    android:text="@string/form_plein_choix_carburant"
+			    android:id="@+id/txt_form_plein_choix_carburant"
 			    android:layout_column="0" />
 
 		    <Spinner
-			    android:id="@+id/spin_choix_carburant"
+			    android:id="@+id/spin_form_plein_choix_carburant"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
 		        android:layout_column="1" />
@@ -165,8 +164,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/new_plein_more"
-        android:id="@+id/txt_new_plein_more"
+        android:text="@string/form_plein_more"
+        android:id="@+id/txt_form_plein_more"
         android:layout_gravity="center_vertical"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
@@ -187,8 +186,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="@string/new_plein_distance"
-                android:id="@+id/txt_new_plein_distance"
+                android:text="@string/form_plein_distance"
+                android:id="@+id/txt_form_plein_distance"
                 android:layout_column="0"
                 android:autoText="false" />
 
@@ -197,15 +196,15 @@
                 android:layout_height="wrap_content"
                 android:inputType="numberDecimal"
                 android:ems="10"
-                android:id="@+id/nb_new_plein_distance"
+                android:id="@+id/nb_form_plein_distance"
                 android:layout_column="1" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="@string/new_plein_distance_help"
-                android:id="@+id/txt_new_plein_distance_help"
+                android:text="@string/form_plein_distance_help"
+                android:id="@+id/txt_form_plein_distance_help"
                 android:layout_column="2"
                 android:layout_marginLeft="5dp" />
         </TableRow>
@@ -218,8 +217,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="@string/new_plein_conso"
-                android:id="@+id/txt_new_plein_conso"
+                android:text="@string/form_plein_conso"
+                android:id="@+id/txt_form_plein_conso"
                 android:layout_column="0" />
 
             <EditText
@@ -227,15 +226,15 @@
                 android:layout_height="wrap_content"
                 android:inputType="numberDecimal"
                 android:ems="10"
-                android:id="@+id/nb_new_plein_conso"
+                android:id="@+id/nb_form_plein_conso"
                 android:layout_column="1" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="@string/new_plein_conso_help"
-                android:id="@+id/txt_new_plein_conso_help"
+                android:text="@string/form_plein_conso_help"
+                android:id="@+id/txt_form_plein_conso_help"
                 android:layout_column="2"
                 android:layout_marginLeft="5dp" />
         </TableRow>
@@ -251,15 +250,15 @@
         <CheckBox
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="@string/new_plein_ras_bord"
-            android:id="@+id/chk_new_plein_complet"
+            android:text="@string/form_plein_ras_bord"
+            android:id="@+id/chk_form_plein_complet"
             android:checked="true" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/new_plein_enregistrer"
-            android:id="@+id/bt_new_plein_save"
+            android:text="@string/form_plein_enregistrer"
+            android:id="@+id/bt_form_plein_save"
             android:layout_gravity="center" />
     </LinearLayout>
 

@@ -9,23 +9,19 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
 /**
  * Permet d'enregistrer un nouveau plein
@@ -50,21 +46,21 @@ public class FaireLePleinActivity extends Activity {
         connexion = new ConnexionBDD(this);
 
         // champs text
-        editDate         = (EditText) findViewById(R.id.date_new_plein_date);
-        editPrix         = (EditText) findViewById(R.id.nb_new_plein_prix);
-        editQuantite     = (EditText) findViewById(R.id.nb_new_plein_quantite);
-        editPrixLitre    = (EditText) findViewById(R.id.nb_new_plein_prixLitre);
-        editDistance     = (EditText) findViewById(R.id.nb_new_plein_distance);
-        editConsommation = (EditText) findViewById(R.id.nb_new_plein_conso);
+        editDate         = (EditText) findViewById(R.id.date_form_plein_date);
+        editPrix         = (EditText) findViewById(R.id.nb_form_plein_prix);
+        editQuantite     = (EditText) findViewById(R.id.nb_form_plein_quantite);
+        editPrixLitre    = (EditText) findViewById(R.id.nb_form_plein_prixLitre);
+        editDistance     = (EditText) findViewById(R.id.nb_form_plein_distance);
+        editConsommation = (EditText) findViewById(R.id.nb_form_plein_conso);
 
         // listes déroulantes
-        spinChoixCarburant = (Spinner) findViewById(R.id.spin_choix_carburant);
+        spinChoixCarburant = (Spinner) findViewById(R.id.spin_form_plein_choix_carburant);
 
         // cases à cocher
-        chkComplet = (CheckBox) findViewById(R.id.chk_new_plein_complet);
+        chkComplet = (CheckBox) findViewById(R.id.chk_form_plein_complet);
 
         // boutons
-        bt_enregistrer = (Button) findViewById(R.id.bt_new_plein_save);
+        bt_enregistrer = (Button) findViewById(R.id.bt_form_plein_save);
     }
 
     private void updatePrixLitre(EditText editPrix, EditText editQuantite, EditText editPrixLitre) {
@@ -99,7 +95,7 @@ public class FaireLePleinActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.nouveau_plein);
+        setContentView(R.layout.form_plein);
 
         init();
         defaults();
@@ -115,9 +111,9 @@ public class FaireLePleinActivity extends Activity {
         editDate.setText(new SimpleDateFormat(getString(R.string.format_date_standard)).format(new Date()));
 
         // liste des carburants
-        Spinner spinner = (Spinner) findViewById(R.id.spin_choix_carburant);
+        Spinner spinner = (Spinner) findViewById(R.id.spin_form_plein_choix_carburant);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.liste_carburants, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item );
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
     }
 
@@ -197,7 +193,7 @@ public class FaireLePleinActivity extends Activity {
         public void onDateSet(DatePicker view, int year, int month, int day) {
             SimpleDateFormat sdf = new SimpleDateFormat(getString(R.string.format_date_standard));
 
-            EditText date_nouveau_plein = (EditText) findViewById(R.id.date_new_plein_date);
+            EditText date_nouveau_plein = (EditText) findViewById(R.id.date_form_plein_date);
             date_nouveau_plein.setText(sdf.format(new Date(year, month, day)));
         }
     }
