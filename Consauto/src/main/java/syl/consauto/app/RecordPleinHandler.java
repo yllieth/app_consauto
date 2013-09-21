@@ -108,14 +108,14 @@ public class RecordPleinHandler {
 
         values.put(FIELD_DATE,     record.getFormattedDate());
         values.put(FIELD_CARBURANT,record.getCarburant());
-        values.put(FIELD_QUANTITE, Math.round(record.getQuantite()) * STORAGE_COEFF_QUANTITE);
-        values.put(FIELD_PRIX,     Math.round(record.getPrix()) * STORAGE_COEFF_PRIX);
+        values.put(FIELD_QUANTITE, Math.round(record.getQuantite() * STORAGE_COEFF_QUANTITE));
+        values.put(FIELD_PRIX,     Math.round(record.getPrix() * STORAGE_COEFF_PRIX));
 
         if (record.getDistance() >= 0)
-            values.put(FIELD_DISTANCE, Math.round(record.getDistance()) * STORAGE_COEFF_DISTANCE);
+            values.put(FIELD_DISTANCE, Math.round(record.getDistance() * STORAGE_COEFF_DISTANCE));
 
         if (record.getConsommation() >= 0)
-            values.put(FIELD_CONSOMMATION, Math.round(record.getConsommation()) * STORAGE_COEFF_CONSOMMATION);
+            values.put(FIELD_CONSOMMATION, Math.round(record.getConsommation() * STORAGE_COEFF_CONSOMMATION));
 
         values.put(FIELD_IS_PLEIN, (record.isPlein()) ? 1 : 0);
 
