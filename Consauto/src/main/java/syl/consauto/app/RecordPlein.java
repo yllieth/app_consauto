@@ -12,6 +12,7 @@ public class RecordPlein {
     // ###                                        VARIABLES                                      ###
     // #############################################################################################
 
+    private int id;
     private Date date;
     private float quantite;
     private float prix;
@@ -26,6 +27,7 @@ public class RecordPlein {
     RecordPlein(){}
 
     RecordPlein(Cursor c) {
+        setId(      c.getInt(RecordPleinHandler.NUM_FIELD_ID));
         setDate(    c.getString(RecordPleinHandler.NUM_FIELD_DATE));
         setQuantite(c.getInt(RecordPleinHandler.NUM_FIELD_QUANTITE     / RecordPleinHandler.STORAGE_COEFF_QUANTITE));       // (float) 5.12 litres est stocké (int) 512
         setPrix(    c.getInt(RecordPleinHandler.NUM_FIELD_PRIX         / RecordPleinHandler.STORAGE_COEFF_PRIX));           // (float) 5.12 euros est stocké (int) 512
@@ -47,6 +49,16 @@ public class RecordPlein {
     // #############################################################################################
     // ###                                       ACCESSEURS                                      ###
     // #############################################################################################
+
+
+    public int getId() {
+        return id;
+    }
+
+    public RecordPlein setId(int id) {
+        this.id = id;
+        return this;
+    }
 
     public String getFormattedDate() {
         SimpleDateFormat sdf = new SimpleDateFormat("dd / MM / yyyy");

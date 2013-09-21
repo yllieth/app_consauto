@@ -101,9 +101,9 @@ public class RecordPleinHandler {
     {
         ContentValues values = new ContentValues();
 
-        values.put(FIELD_DATE,         record.getFormattedDate());
-        values.put(FIELD_QUANTITE,     Math.round(record.getQuantite()) * STORAGE_COEFF_QUANTITE);
-        values.put(FIELD_PRIX,         Math.round(record.getPrix()) * STORAGE_COEFF_PRIX);
+        values.put(FIELD_DATE,     record.getFormattedDate());
+        values.put(FIELD_QUANTITE, Math.round(record.getQuantite()) * STORAGE_COEFF_QUANTITE);
+        values.put(FIELD_PRIX,     Math.round(record.getPrix()) * STORAGE_COEFF_PRIX);
 
         if (record.getDistance() >= 0)
             values.put(FIELD_DISTANCE, Math.round(record.getDistance()) * STORAGE_COEFF_DISTANCE);
@@ -111,7 +111,7 @@ public class RecordPleinHandler {
         if (record.getConsommation() >= 0)
             values.put(FIELD_CONSOMMATION, Math.round(record.getConsommation()) * STORAGE_COEFF_CONSOMMATION);
 
-        values.put(FIELD_IS_PLEIN,     (record.isPlein()) ? 1 : 0);
+        values.put(FIELD_IS_PLEIN, (record.isPlein()) ? 1 : 0);
 
         return values;
     }
@@ -167,7 +167,7 @@ public class RecordPleinHandler {
         List<RecordPlein> collection = new ArrayList<RecordPlein>();
 
         SQLiteDatabase bdd = connexion.open();
-        Cursor c = bdd.rawQuery("SELECT * FROM " + TABLE_NAME, null);
+        Cursor c = bdd.rawQuery(getAllTxtQuery(), null);
         if (c.moveToFirst()){
             do {
                 collection.add(new RecordPlein(c));
@@ -175,6 +175,24 @@ public class RecordPleinHandler {
         }
 
         return collection;
+    }
+
+    /**
+     * Renvoie la requête texte qui permet de récupérer tous les enregistrements.
+     *
+     * @return String
+     * @author Sylvain{20/09/2013}
+     */
+    public static String getAllTxtQuery() {
+        return "SELECT " +
+                FIELD_ID + " AS _id" + ", " +
+                FIELD_DATE + ", " +
+                FIELD_QUANTITE + ", " +
+                FIELD_PRIX + ", " +
+                FIELD_DISTANCE + ", " +
+                FIELD_CONSOMMATION + ", " +
+                FIELD_IS_PLEIN +
+              " FROM " + TABLE_NAME;
     }
 
     /**
