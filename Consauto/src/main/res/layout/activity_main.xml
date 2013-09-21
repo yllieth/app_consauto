@@ -14,4 +14,37 @@
         android:layout_height="wrap_content"
         android:text="@string/hello_world" />
 
+	<LinearLayout
+		android:orientation="vertical"
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent"
+		android:layout_below="@+id/txt_home"
+		android:layout_alignParentLeft="true"
+		android:layout_marginTop="45dp"
+		android:id="@+id/linearLayout">
+
+		<Button
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:text="Nouveau plein"
+			android:id="@+id/bt_new_plein"
+			android:onClick="startFaireLePleinActivity"/>
+
+		<Button
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:text="Liste des pleins"
+			android:id="@+id/bt_liste"
+			android:onClick="startListeActivity"/>
+	</LinearLayout>
+
+	<Button
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:text="Paramètres"
+		android:id="@+id/bt_settings"
+		android:layout_alignParentBottom="true"
+		android:layout_centerHorizontal="true"
+		android:onClick="startSettingsActivity"/>
+
 </RelativeLayout>
