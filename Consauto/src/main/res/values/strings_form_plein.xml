@@ -1,6 +1,7 @@
 <resources>
     <string name="nouveau_plein_">Carburant utilisé</string>
-    <string name="form_plein_titre">Ajouter un nouveau plein :</string>
+	<string name="form_plein_titre_ajouter">Ajouter un nouveau plein :</string>
+	<string name="form_plein_titre_modifier">Modifier un plein :</string>
     <string name="form_plein_date">Date :</string>
     <string name="form_plein_quantite">Quantité :</string>
     <string name="form_plein_quantite_help">Litres</string>
@@ -14,7 +15,8 @@
     <string name="form_plein_prixLitre">Prix au litre :</string>
     <string name="form_plein_prixLitre_help">Euros</string>
     <string name="form_plein_ras_bord">Plein à ras-bord ?</string>
-    <string name="form_plein_enregistrer">Enregistrer</string>
+	<string name="form_plein_enregistrer">Enregistrer</string>
+	<string name="form_plein_modifier">Mettre à jour</string>
 
 	<string name="form_plein_saved_success">Nouveau plein enregistré !</string>
 	<string name="form_plein_saved_error">Une erreur s\'est produite pendant l\'enregistrement du plein.</string>

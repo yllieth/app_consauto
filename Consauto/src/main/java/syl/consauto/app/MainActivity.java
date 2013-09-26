@@ -26,7 +26,7 @@ public class MainActivity extends Activity {
         int count = handler.count();
 
         TextView txt = (TextView) findViewById(R.id.txt_home);
-        txt.setText("Nombre d'enregistrements : " + count);
+        txt.setText("Nombre de pleins enregistrés : " + count);
     }
 
     @Override

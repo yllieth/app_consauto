@@ -9,7 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/form_plein_titre"
+        android:text="@string/form_plein_titre_ajouter"
         android:id="@+id/txt_form_plein"
         android:layout_gravity="center_vertical"
         android:layout_marginTop="10dp"

@@ -1,10 +1,12 @@
 package syl.consauto.app;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
@@ -24,7 +26,17 @@ public class ListeActivity extends Activity {
     @Override
     public void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
+        populateList();
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        populateList();
+    }
+
+
+    private void populateList() {
         // récupération des données
         SQLiteDatabase bdd = new ConnexionBDD(this).open();
         Cursor cursor = bdd.rawQuery(RecordPleinHandler.getAllTxtQuery(), null);
@@ -62,8 +74,8 @@ public class ListeActivity extends Activity {
                 if (column == RecordPleinHandler.NUM_FIELD_PRIX) {
                     float prix = Float.parseFloat(cursor.getString(column));
                     String lstPrix = (prix > 0)
-                        ? String.valueOf(prix / RecordPleinHandler.STORAGE_COEFF_PRIX)
-                        : "--";
+                            ? String.valueOf(prix / RecordPleinHandler.STORAGE_COEFF_PRIX)
+                            : "--";
                     textView.setText(lstPrix + " €");
                     return true;
                 } else if (column == RecordPleinHandler.NUM_FIELD_CONSOMMATION) {
@@ -91,5 +103,16 @@ public class ListeActivity extends Activity {
         // affichage des données
         ListView listView = (ListView) findViewById(R.id.lst_pleins);
         listView.setAdapter(adapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parentView, View childView, int position, long id) {
+                //RecordPlein recordPlein = new RecordPlein((Cursor) parentView.getItemAtPosition(position));
+
+                Intent i = new Intent(getApplicationContext(), FaireLePleinActivity.class);
+                i.putExtra("editID", id);
+                startActivity(i);
+            }
+        });
     }
 }

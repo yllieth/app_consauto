@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
@@ -16,6 +17,7 @@ import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import java.text.DecimalFormat;
 import java.text.ParseException;
@@ -40,11 +42,12 @@ public class FaireLePleinActivity extends Activity {
     private CheckBox chkComplet;
     private Button bt_enregistrer;
     private ConnexionBDD connexion;
+    private RecordPleinHandler pleinHandler;
+    private int editID;
+
+
 
     private void init() {
-        // connexion à la base de données
-        connexion = new ConnexionBDD(this);
-
         // champs text
         editDate         = (EditText) findViewById(R.id.date_form_plein_date);
         editPrix         = (EditText) findViewById(R.id.nb_form_plein_prix);
@@ -61,6 +64,18 @@ public class FaireLePleinActivity extends Activity {
 
         // boutons
         bt_enregistrer = (Button) findViewById(R.id.bt_form_plein_save);
+    }
+
+    private void initEditId(Bundle savedInstanceState) {
+        editID = -1;
+        if (savedInstanceState == null) {
+            Bundle extras = getIntent().getExtras();
+            if (extras != null) {
+                editID = (int) extras.getLong("editID");
+            }
+        } else {
+            editID = Integer.parseInt((String) savedInstanceState.getSerializable("editID"));
+        }
     }
 
     private void updatePrixLitre(EditText editPrix, EditText editQuantite, EditText editPrixLitre) {
@@ -92,14 +107,53 @@ public class FaireLePleinActivity extends Activity {
         return null;
     }
 
+    private int getPositionFromCarburant(String carburant) {
+        String[] carburants = getResources().getStringArray(R.array.liste_carburants);
+        int position = -1;
+
+        for (int i = 0 ; i < carburants.length ; i++) {
+            if (carburants[i].equals(carburant)) {
+                return i;
+            }
+        }
+
+        return position;
+    }
+
+    private boolean isEditContext() {
+        return editID > 0;
+    }
+
+    // #############################################################################################
+    // ###                                     CONSTRUCTEURS                                     ###
+    // #############################################################################################
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.form_plein);
 
+
+        // connexion à la base de données
+        connexion = new ConnexionBDD(this);
+        pleinHandler = new RecordPleinHandler(connexion);
+
+        initEditId(savedInstanceState);
         init();
-        defaults();
+
+        if (isEditContext()) {
+            defaults(pleinHandler.get(editID));
+            setEditLabels();
+        } else {
+            defaults();
+        }
         listeners();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        initEditId(null);
     }
 
     // #############################################################################################
@@ -111,10 +165,32 @@ public class FaireLePleinActivity extends Activity {
         editDate.setText(new SimpleDateFormat(getString(R.string.format_date_standard)).format(new Date()));
 
         // liste des carburants
-        Spinner spinner = (Spinner) findViewById(R.id.spin_form_plein_choix_carburant);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.liste_carburants, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
+        spinChoixCarburant.setAdapter(adapter);
+    }
+
+    private void defaults(RecordPlein recordPlein) {
+        defaults();
+
+        editDate.setText(recordPlein.getFormattedDate());
+        editQuantite.setText(String.valueOf(recordPlein.getQuantite()));
+        spinChoixCarburant.setSelection(getPositionFromCarburant(recordPlein.getCarburant()));
+        editPrix.setText(String.valueOf(recordPlein.getPrix()));
+        editDistance.setText(String.valueOf(recordPlein.getDistance()));
+        editConsommation.setText(String.valueOf(recordPlein.getConsommation()));
+        chkComplet.setChecked(recordPlein.isPlein());
+
+        updatePrixLitre(editPrix, editQuantite, editPrixLitre);
+    }
+
+    private void setEditLabels()
+    {
+        TextView titre = (TextView) findViewById(R.id.txt_form_plein);
+        titre.setText(R.string.form_plein_titre_modifier);
+
+        TextView bouton = (TextView) findViewById(R.id.bt_form_plein_save);
+        bouton.setText(R.string.form_plein_modifier);
     }
 
     // #############################################################################################
@@ -150,8 +226,13 @@ public class FaireLePleinActivity extends Activity {
                      .setConsommation(getFloatValueFrom(editConsommation, "consommation"))
                      .setPlein((chkComplet.isChecked()) ? true : false);
 
-                RecordPleinHandler handler = new RecordPleinHandler(connexion);
-                boolean isSuccess = handler.save(plein);
+
+                boolean isSuccess = (isEditContext())
+                    ? pleinHandler.update(editID, plein)
+                    : pleinHandler.save(plein);
+
+                if (isSuccess)
+                    startActivity(new Intent(getApplicationContext(), ListeActivity.class));
             }
         });
     }
