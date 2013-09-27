@@ -464,24 +464,30 @@ public class FaireLePleinActivity extends Activity {
     private class DatePickerFragment extends DialogFragment
                                      implements DatePickerDialog.OnDateSetListener
     {
-
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             // Use the current date as the default date in the picker
             final Calendar c = Calendar.getInstance();
-            int year  = c.get(Calendar.YEAR);
-            int month = c.get(Calendar.MONTH);
-            int day   = c.get(Calendar.DAY_OF_MONTH);
+            SimpleDateFormat sdf = new SimpleDateFormat(getString(R.string.format_date_standard));
 
-            // Create a new instance of DatePickerDialog and return it
-            return new DatePickerDialog(getActivity(), this, year, month, day);
+            Date date;
+            try {
+                date = sdf.parse(editDate.getText().toString());
+            } catch (ParseException e) {
+                date = new Date();
+            }
+
+            c.setTime(date);
+
+            return new DatePickerDialog(getActivity(), this, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
         }
 
         public void onDateSet(DatePicker view, int year, int month, int day) {
+            Calendar c = Calendar.getInstance();
             SimpleDateFormat sdf = new SimpleDateFormat(getString(R.string.format_date_standard));
+            c.set(year, month, day);
 
-            EditText date_nouveau_plein = (EditText) findViewById(R.id.date_form_plein_date);
-            date_nouveau_plein.setText(sdf.format(new Date(year, month, day)));
+            editDate.setText(sdf.format(c.getTime()));
         }
     }
 }
