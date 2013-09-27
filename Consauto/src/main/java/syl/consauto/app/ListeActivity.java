@@ -17,6 +17,10 @@ public class ListeActivity extends Activity {
     // ###                                       VARIABLES                                       ###
     // #############################################################################################
 
+    // #############################################################################################
+    // ###                                     CONSTRUCTEURS                                     ###
+    // #############################################################################################
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,7 +39,64 @@ public class ListeActivity extends Activity {
         populateList();
     }
 
+    // #############################################################################################
+    // ###                                   FONCTIONS PRIVEES                                   ###
+    // #############################################################################################
 
+    /**
+     * Peuple la liste des pleins.
+     *
+     * <h2>Design</h2>
+     * Chaque élément de la liste utilise le design défini par le layout <code>item_liste_pleins.xml</code>.
+     * C'est ainsi qu'on peut afficher, pour chaque plein :
+     * <ul>
+     *  <li>la date</li>
+     *  <li>le prix</li>
+     *  <li>le carburant utilisé</li>
+     *  <li>la consommation (si renseigné)</li>
+     *  <li>la distance parcourue avec ce plein</li>
+     * </ul>
+     *
+     * <h2>Peuplement de la liste</h2>
+     * Pour afficher tous les pleins enregistrés, il faut :
+     * <ul>
+     *  <li>les récupérer en base de données</li>
+     *  <li>traiter les données, notamment pour afficher les unités</li>
+     *  <li>leur appliquer le layout approprié</li>
+     *  <li>leur attacher les différents listeners</li>
+     * </ul>
+     *
+     * <h3>Récupération en base de données</h3>
+     * La requête utilisée est définie dans <code>RecordPleinHandler.getAllTxtQuery()</code>.
+     * Après son exécution, on va récupérer un curseur qui va permettre de peupler la liste en données brutes.
+     *
+     * <h3>Traitement des données brutes</h3>
+     * Cependant les données récupérées en base de données doivent être mise en forme avant d'être affichées.
+     * C'est le but du <code>ViewBinder</code>. Il va permettre de décorer l'affichage du prix, de la distance
+     * et de la consommation. En effet, ces trois données ont été multipliées pour pouvoir être stockée sous
+     * la forme d'entiers. Il faut donc diviser la donnée brute par le coefficient adéquat pour retrouver
+     * la valeur initialement saisie. On en profite également pour ajouter les unités appropriées.
+     *
+     * <h3>Application du layout</h3>
+     * C'est le role du <code>SimpleCursorAdapter</code>. Qui, entres autres, prend 2 tableaux en paramètres.
+     * Il permettent de mapper l'identifiant des données stockées dans le curseur avec l'élément du layout.
+     * On indique ainsi où va aller se placer telle ou telle données.
+     * Il est entendu que ces 2 tableaux doivent avoir le même nombre d'éléments.
+     *
+     * <h3>Listeners</h3>
+     * Les listeners utilisés permettent de :
+     * <ul>
+     *  <li>Modifier un item de la liste lorsqu'on clique dessus. Cette action utiliser le même formulaire
+     *  que l'ajout standard d'un plein (<code>FaireLePleinActivity</code>)</li>
+     * </ul>
+     *
+     * <h2>Appels</h2>
+     * Cette fonction est appelée dans <code>onPostCreate()</code> et dans <code>onResume()</code>.
+     * On permet ainsi de mettre à jour la liste dans tous les cas où elle est affichée (y compris
+     * lorsqu'on vient d'ajouter/modifier un plein)
+     *
+     * @author Sylvain{26/09/2013}
+     */
     private void populateList() {
         // récupération des données
         SQLiteDatabase bdd = new ConnexionBDD(this).open();

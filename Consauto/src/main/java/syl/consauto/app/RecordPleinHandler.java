@@ -21,29 +21,29 @@ public class RecordPleinHandler {
     public static final String  FIELD_ID = "_id";
     public static final int NUM_FIELD_ID = 0;
 
-    public static final String FIELD_DATE = "Date";
+    public static final String  FIELD_DATE = "Date";
     public static final int NUM_FIELD_DATE = 1;
 
-    public static final String FIELD_CARBURANT = "Carburant";
+    public static final String  FIELD_CARBURANT = "Carburant";
     public static final int NUM_FIELD_CARBURANT = 2;
 
-    public static final String FIELD_QUANTITE = "Quantite";
-    public static final int NUM_FIELD_QUANTITE = 3;
+    public static final String      FIELD_QUANTITE = "Quantite";
+    public static final int     NUM_FIELD_QUANTITE = 3;
     public static final int STORAGE_COEFF_QUANTITE = 100;
 
-    public static final String FIELD_PRIX = "Prix";
-    public static final int NUM_FIELD_PRIX = 4;
+    public static final String      FIELD_PRIX = "Prix";
+    public static final int     NUM_FIELD_PRIX = 4;
     public static final int STORAGE_COEFF_PRIX = 100;
 
-    public static final String FIELD_DISTANCE = "Distance";
-    public static final int NUM_FIELD_DISTANCE = 5;
+    public static final String      FIELD_DISTANCE = "Distance";
+    public static final int     NUM_FIELD_DISTANCE = 5;
     public static final int STORAGE_COEFF_DISTANCE = 100;
 
-    public static final String FIELD_CONSOMMATION = "Consommation";
-    public static final int NUM_FIELD_CONSOMMATION = 6;
+    public static final String      FIELD_CONSOMMATION = "Consommation";
+    public static final int     NUM_FIELD_CONSOMMATION = 6;
     public static final int STORAGE_COEFF_CONSOMMATION = 10;
 
-    public static final String FIELD_IS_PLEIN = "Plein";
+    public static final String  FIELD_IS_PLEIN = "Plein";
     public static final int NUM_FIELD_IS_PLEIN = 7;
 
     // #############################################################################################
@@ -55,6 +55,27 @@ public class RecordPleinHandler {
         this.connexion = connexion;
     }
 
+    /**
+     * Crée la table en base de données.
+     *
+     * <pre>
+     * +--------------+----------+----------------------------+-------------------+
+     * | field        | type     | extra                      | exemple           |
+     * +--------------+----------+----------------------------+-------------------+
+     * | _id          | INTEGER  | primary key, autoincrement | 1                 |
+     * | Date         | TEXT     | not null                   | "27 / 09 / 2013"  |
+     * | Carburant    | TEXT     | not null                   | "Sans plomb 95"   |
+     * | Quantite     | INTEGER  | not null                   | 3512 (35.12 l)    |
+     * | Prix         | INTEGER  | not null                   | 4035 (40.35 €)    |
+     * | Distance     | INTEGER  | null                       | 35197 (351.97 km) |
+     * | Consommation | INTEGER  | null                       | 82 (8.2 l/100km)  |
+     * | Plein        | TINYINT  | (boolean)                  | 1 (true)          |
+     * +--------------+----------+----------------------------+-------------------+
+     * </pre>
+     *
+     * @return Requête permettant de créer la table.
+     * @author Sylvain{20/09/2013}
+     */
     public static String createTableQuery()
     {
         return "CREATE TABLE " + TABLE_NAME + " ("
@@ -69,6 +90,12 @@ public class RecordPleinHandler {
                 + ");";
     }
 
+    /**
+     * Supprime la table de la base de données
+     *
+     * @return "DROP TABLE IF EXISTS Plein"
+     * @author Sylvain{20/09/2013}
+     */
     public static String dropTableQuery()
     {
         return "DROP TABLE IF EXISTS " + TABLE_NAME + ";";
@@ -94,6 +121,14 @@ public class RecordPleinHandler {
         return (insert != -1) ? true : false;
     }
 
+    /**
+     * Met à jour un Record en base de données.
+     *
+     * @param id    {@link android.R.integer}            : Identifiant de l'enregistrement à mettre à jour
+     * @param datas {@link syl.consauto.app.RecordPlein} : Données à enregistrer en base
+     * @return "UPDATE Plein SET {} WHERE _id = $id"
+     * @author Sylvain {26/09/2013}
+     */
     public boolean update(int id, RecordPlein datas) {
         SQLiteDatabase bdd = connexion.open();
         long update = bdd.update(TABLE_NAME, formatToBDD(datas), FIELD_ID + " = " + String.valueOf(id), null);
@@ -105,8 +140,8 @@ public class RecordPleinHandler {
     /**
      * Renvoie un Record précis à partir de son identifiant.
      *
-     * @param number int
-     * @return Record
+     * @param number {@link android.R.integer} : Identifiant de l'enregistrement à trouver
+     * @return {@link syl.consauto.app.RecordPlein}
      * @author Sylvain{18/009/2013}
      */
     public RecordPlein get(int number)
@@ -122,7 +157,7 @@ public class RecordPleinHandler {
     /**
      * Renvoie l'ensemble des Record contnus dans la table "access"
      *
-     * @return List
+     * @return {@link java.util.List}
      * @author Sylvain{18/009/2013}
      */
     public List<RecordPlein> getAll()
@@ -143,7 +178,7 @@ public class RecordPleinHandler {
     /**
      * Renvoie la requête texte qui permet de récupérer tous les enregistrements.
      *
-     * @return String
+     * @return "SELECT {} FROM Plein"
      * @author Sylvain{20/09/2013}
      */
     public static String getAllTxtQuery() {
@@ -160,10 +195,10 @@ public class RecordPleinHandler {
     }
 
     /**
-     * Renvoie le nombre de Record de la table "access"
+     * Renvoie le nombre de Record de la table "Plein"
      *
-     * @return int
-     * @author Sylvain{18/009/2013}
+     * @return {@link android.R.integer} Nombre d'enregistrement de la table Plein
+     * @author Sylvain{18/09/2013}
      */
     public int count()
     {
@@ -177,7 +212,7 @@ public class RecordPleinHandler {
     /**
      * Transforme un <code>Cursor</code> en <code>RecordPlein</code>
      *
-     * @param c Cursor
+     * @param c {@link android.database.Cursor}
      * @return RecordPlein
      * @author Sylvain{23/09/2013}
      */
@@ -194,10 +229,10 @@ public class RecordPleinHandler {
     }
 
     /**
-     * Renvoie la liste des colonnes de la table "access".
+     * Renvoie la liste des colonnes de la table "Plein".
      *
      * @return String[]
-     * @author Sylvain{18/009/2013}
+     * @author Sylvain{18/09/2013}
      */
     private String[] getColumns()
     {
@@ -214,11 +249,16 @@ public class RecordPleinHandler {
     }
 
     /**
-     * Transforme un record en ContentValues pour l'insertion en base de données
+     * Transforme un record en ContentValues pour l'insertion en base de données.
      *
-     * @param record RecordPlein
-     * @return ContentValues
-     * @author Sylvain{18/009/2013}
+     * {@note En base de données, les colonnes <em>Quantite</em>, <em>Prix</em>, <em>Distance</em>
+     *        et <em>Consommation</em> sont des entier (<code>INTEGER</code>). Afin que les données
+     *        à stockées ne soient pas arrondies, elles sont multipliées pour être correctement
+     *        stockées. Par exemple, 12.34 litre, sera stocké 12.34 * 100 = 1234}
+     *
+     * @param record {@link syl.consauto.app.RecordPlein}
+     * @return {@link android.content.ContentValues}
+     * @author Sylvain{18/09/2013}
      */
     private ContentValues formatToBDD(RecordPlein record)
     {

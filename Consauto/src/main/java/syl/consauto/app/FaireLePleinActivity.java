@@ -26,28 +26,120 @@ import java.util.Calendar;
 import java.util.Date;
 
 /**
- * Permet d'enregistrer un nouveau plein
+ * Formulaire d'ajout / modification d'un plein.
  *
  * @author Sylvain{17/09/2013}
  */
 public class FaireLePleinActivity extends Activity {
 
+    // #############################################################################################
+    // ###                                       VARIABLES                                       ###
+    // #############################################################################################
+
+    /**
+     * Zone de texte ({@link EditText}) permettant de saisir la date du plein.
+     *
+     * @return EditText
+     */
     private EditText editDate;
+
+    /**
+     * Liste déroulante ({@link Spinner}) affichant les différents carburants disponibles.
+     *
+     * @return Spinner
+     */
     private Spinner spinChoixCarburant;
+
+    /**
+     * Zone de texte ({@link EditText}) permettant de saisir le prix du plein.
+     *
+     * @return EditText
+     */
     private EditText editPrix;
+
+    /**
+     * Zone de texte ({@link EditText}) permettant de saisir la quantité de carburant du plein.
+     *
+     * @return EditText
+     */
     private EditText editQuantite;
+
+    /**
+     * Zone de texte ({@link EditText}) permettant d'afficher le prix au litre.
+     * La zone de texte est pas accessible à la modification. Le contenu est mis à jour via la méthode
+     * <code>listeners()</code>.
+     *
+     * @return EditText
+     */
     private EditText editPrixLitre;
+
+    /**
+     * Zone de texte ({@link EditText}) permettant de saisir la distance parcourue avec le plein.
+     *
+     * @return EditText
+     */
     private EditText editDistance;
+
+    /**
+     * Zone de texte ({@link EditText}) permettant de saisir la consommation moyenne au cours du plein.
+     *
+     * @return EditText
+     */
     private EditText editConsommation;
+
+    /**
+     * Case à cocher ({@link CheckBox}) permettant d'indiquer si le plein a été fait completement.
+     *
+     * @return CheckBox
+     */
     private CheckBox chkComplet;
+
+    /**
+     * Bouton ({@link} Button) permettant d'ajouter ou mettre à jour un plein.
+     * Le comportement de ce {@link Button} est défini dans {@link "listeners()"}.
+     *
+     * @return Button
+     */
     private Button bt_enregistrer;
+
+    /**
+     * Connexion à la base de donnée.
+     * Cette variable est initialisé dans {@link "onCreate()"}.
+     *
+     * @return ConnexionBDD
+     */
     private ConnexionBDD connexion;
+
+    /**
+     * Instance de {@link syl.consauto.app.RecordPleinHandler} contenant les différentes fonctions
+     * d'interaction entre un {@link syl.consauto.app.RecordPlein} et la base de données.
+     *
+     * @return RecordPlein
+     */
     private RecordPleinHandler pleinHandler;
+
+    /**
+     * Stocke l'identifiant du plein que l'on souhaite modifier.
+     * Cet identifiant est initialisé dans {@link "initEditID()"}.
+     * Lorsqu'il s'agit d'un ajout, cet identifiant est laissé null, sinon, sa valeur est récupérée
+     * du paramètre {@code editID} donné à l'{@link Intent} qui déclenche l'activité.
+     *
+     * @return int
+     */
     private int editID;
 
+    // #############################################################################################
+    // ###                                   FONCTIONS PRIVEES                                   ###
+    // #############################################################################################
 
-
-    private void init() {
+    /**
+     * Lie certaines variables avec leur champ du formulaire.
+     * Ce mapping n'est donc plus à faire individuellement dans les autres méthodes de cette classe.
+     *
+     * @return void
+     * @author Sylvain{20/09/2013}
+     */
+    private void initFormFields() {
         // champs text
         editDate         = (EditText) findViewById(R.id.date_form_plein_date);
         editPrix         = (EditText) findViewById(R.id.nb_form_plein_prix);
@@ -66,6 +158,18 @@ public class FaireLePleinActivity extends Activity {
         bt_enregistrer = (Button) findViewById(R.id.bt_form_plein_save);
     }
 
+    /**
+     * Intialise la variable <tt>editID</tt>.
+     *
+     * Lorsqu'on souhaite modifier les données d'un plein, on passe un paramètre <code>editID</code>
+     * à l'{@link Intent} qui déclenche l'activité. Lorsque ce paramètres est détecté, on récupère
+     * les infos en base de données pour initialisé le formulaire avec.
+     *
+     * {@note <b>[FACTORISATION]</b>}
+     * @param savedInstanceState
+     * @return void
+     * @author Sylvain{26/09/2013}
+     */
     private void initEditId(Bundle savedInstanceState) {
         editID = -1;
         if (savedInstanceState == null) {
@@ -78,6 +182,21 @@ public class FaireLePleinActivity extends Activity {
         }
     }
 
+    /**
+     * Met à jour le champ <code>Prix au litre</code> du formulaire à partir des données des champs
+     * <code>prix</code> et <code>quantité</code>.
+     *
+     * Cette méthode est applée lorsque les deux données source sont disponible. Pour coller avec le
+     * prix affiché à la pompe, le résultat est affiché avec une précision de 3 chiffres après la
+     * virgule.
+     *
+     * {@note <b>[FACTORISATION]</b>}
+     * @param editPrix      {@link android.widget.EditText} : Prix du plein
+     * @param editQuantite  {@link android.widget.EditText} : Quantité de carburant servie
+     * @param editPrixLitre {@link android.widget.EditText} : Champ à mettre à jour avec le résultat de la division
+     * @return void
+     * @author Sylvain{18/09/2013}
+     */
     private void updatePrixLitre(EditText editPrix, EditText editQuantite, EditText editPrixLitre) {
         if (editPrix.getText().length() > 0 && editQuantite.getText().length() > 0) {
             float prix = Float.parseFloat(editPrix.getText().toString());
@@ -88,7 +207,17 @@ public class FaireLePleinActivity extends Activity {
         }
     }
 
-    private float getFloatValueFrom(EditText editText, String tag) {
+    /**
+     * Récupère la valeur contenu dans l'{@link android.widget.EditText} et la renvoie typée en {@link java.lang.Float}.
+     *
+     * Si le champs est vide, on renvoie un -1.
+     *
+     * {@note <b>[FACTORISATION]</b>}
+     * @param editText {@link android.widget.EditText} : Champs dont il faut extraire la valeur
+     * @return Valeur prête à être utilisée pour initialiser le {@link syl.consauto.app.RecordPlein}
+     * @author Sylvain{20/09/2013}
+     */
+    private float getFloatValueFrom(EditText editText) {
         return Float.parseFloat
             (
                 editText.getText().toString().equals("")
@@ -97,9 +226,19 @@ public class FaireLePleinActivity extends Activity {
             );
     }
 
+    /**
+     * Récupère la valeur contenu dans l'{@link android.widget.EditText} et la renvoie typée en {@link java.util.Date}.
+     *
+     * La date saisie dans le champ du formulaire est au format <code>dd / MM / yyyy</code>.
+     *
+     * {@note <b>[FACTORISATION]</b>}
+     * @param editText {@link android.widget.EditText} : Champs dont il faut extraire la valeur
+     * @return Valeur prête à être utilisée pour initialiser le {@link syl.consauto.app.RecordPlein}
+     * @author Sylvain{20/09/2013}
+     */
     private Date getDateValueFrom(EditText editText) {
         try {
-            return new SimpleDateFormat(getString(R.string.format_date_standard)).parse(editDate.getText().toString());
+            return new SimpleDateFormat(getString(R.string.format_date_standard)).parse(editText.getText().toString());
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -107,6 +246,17 @@ public class FaireLePleinActivity extends Activity {
         return null;
     }
 
+    /**
+     * Récupère l'index du <code>carburant</code> donné en paramètre dans la liste des carburants disponible.
+     *
+     * Cette liste est codée en dur dans <code>R.array.liste_carburants</code>.
+     * Cette méthode permet d'initialiser la liste déroulante.
+     *
+     * {@note <b>[FACTORISATION]</b>}
+     * @param carburant Nom du carburant utilisé (ex: Sans plomb 95)
+     * @return Pour le <em>Sans plomb 95</em>, on renvoie 1
+     * @author Sylvain{26/09/2013}
+     */
     private int getPositionFromCarburant(String carburant) {
         String[] carburants = getResources().getStringArray(R.array.liste_carburants);
         int position = -1;
@@ -120,6 +270,13 @@ public class FaireLePleinActivity extends Activity {
         return position;
     }
 
+    /**
+     * Indique si il s'agit d'un ajout d'un nouveau plein ou de la modification d'un plein existant.
+     *
+     * {@note <b>[FACTORISATION]</b>}
+     * @return vrai(true) si un identifiant à été donnée en paramètre de l'{@link Intent} qui déclenche l'activité.
+     * @author Sylvain{26/09/2013}
+     */
     private boolean isEditContext() {
         return editID > 0;
     }
@@ -139,7 +296,7 @@ public class FaireLePleinActivity extends Activity {
         pleinHandler = new RecordPleinHandler(connexion);
 
         initEditId(savedInstanceState);
-        init();
+        initFormFields();
 
         if (isEditContext()) {
             defaults(pleinHandler.get(editID));
@@ -160,6 +317,12 @@ public class FaireLePleinActivity extends Activity {
     // ###                              VALEURS PAR DEFAUT COMPLEXES                             ###
     // #############################################################################################
 
+    /**
+     * Défini les valeurs par défaut des champs du formulaire d'ajout d'un nouveau plein.
+     *
+     * @return void
+     * @author Sylvain{18/09/2013}
+     */
     public void defaults() {
         // date d'aujourd'hui
         editDate.setText(new SimpleDateFormat(getString(R.string.format_date_standard)).format(new Date()));
@@ -170,6 +333,16 @@ public class FaireLePleinActivity extends Activity {
         spinChoixCarburant.setAdapter(adapter);
     }
 
+    /**
+     * Initialise le formulaire avec les valeurs du {@link syl.consauto.app.RecordPlein} donné en paramètre.
+     *
+     * Cette initialisation à lieu lorsqu'il s'agit de modifier un plein existant.
+     * L'appel à <code>defaults()</code> permet de récupérer la liste des carburants.
+     *
+     * @param recordPlein {@link syl.consauto.app.RecordPlein} : Contient les valeur à placer dans les champs du formulaire
+     * @return void
+     * @author Sylvain{26/09/2013}
+     */
     private void defaults(RecordPlein recordPlein) {
         defaults();
 
@@ -184,6 +357,15 @@ public class FaireLePleinActivity extends Activity {
         updatePrixLitre(editPrix, editQuantite, editPrixLitre);
     }
 
+    /**
+     * Modifie les labels du formulaire lorsqu'il s'agit d'une modification.
+     *
+     * "<em>Ajout un nouveau plein</em>" devient "<em>Modifier un plein</em>".
+     * "<em>Enregistrer</em>" devient "<em>Mettre à jour</em>".
+     *
+     * @return void
+     * @author Sylvain{26/09/2013}
+     */
     private void setEditLabels()
     {
         TextView titre = (TextView) findViewById(R.id.txt_form_plein);
@@ -197,6 +379,29 @@ public class FaireLePleinActivity extends Activity {
     // ###                                 LISTENERS / HANDLERS                                  ###
     // #############################################################################################
 
+    /**
+     * Attache les listeners adéquats aux champs du formulaire.
+     *
+     * Les champs concernés sont :
+     * <ul>
+     *     <li>
+     *         {@link android.widget.EditText} editQuantite : {@link android.text.TextWatcher} pour
+     *         détecter la saisie d'une valeur et mettre à jour le prix au litre.
+     *     </li>
+     *     <li>
+     *         {@link android.widget.EditText} editPrix : {@link android.text.TextWatcher} pour
+     *         détecter la saisie d'une valeur et mettre à jour le prix au litre.
+     *     </li>
+     *     <li>
+     *         {@link android.widget.Button} bt_enregistrer : {@link android.content.DialogInterface.OnClickListener}
+     *         pour enregistrer le formulaire et ajouter ou modifier un plein. Si l'enregistrement
+     *         s'est bien passé, on retoure à la liste des pleins
+     *     </li>
+     * </ul>
+     *
+     * @return void
+     * @author Sylvain{18/09/2013}
+     */
     public void listeners() {
         // calcul du prix au litre par modification de la quantité
         editQuantite.addTextChangedListener(new TextWatcher() {
@@ -220,10 +425,10 @@ public class FaireLePleinActivity extends Activity {
 
                 plein.setDate(getDateValueFrom(editDate))
                      .setCarburant(spinChoixCarburant.getSelectedItem().toString())
-                     .setQuantite(getFloatValueFrom(editQuantite, "quantite"))
-                     .setPrix(getFloatValueFrom(editPrix, "prix"))
-                     .setDistance(getFloatValueFrom(editDistance, "distance"))
-                     .setConsommation(getFloatValueFrom(editConsommation, "consommation"))
+                     .setQuantite(getFloatValueFrom(editQuantite))
+                     .setPrix(getFloatValueFrom(editPrix))
+                     .setDistance(getFloatValueFrom(editDistance))
+                     .setConsommation(getFloatValueFrom(editConsommation))
                      .setPlein((chkComplet.isChecked()) ? true : false);
 
 
@@ -238,6 +443,7 @@ public class FaireLePleinActivity extends Activity {
     }
 
     /**
+     * Affiche le calendrier pour la saisie de la date;
      *
      * @note If your app supports versions of Android lower than 3.0, be sure that you call
      * getSupportFragmentManager() to acquire an instance of FragmentManager. Also make sure that3
