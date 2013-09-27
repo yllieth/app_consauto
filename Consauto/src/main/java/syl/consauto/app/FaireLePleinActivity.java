@@ -10,6 +10,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -311,6 +313,26 @@ public class FaireLePleinActivity extends Activity {
     protected void onResume() {
         super.onResume();
         initEditId(null);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.faire_le_plein, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.action_liste:
+                startActivity(new Intent(this, ListeActivity.class));
+                return true;
+            case R.id.action_main:
+                startActivity(new Intent(this, MainActivity.class));
+                return true;
+        }
+        return false;
     }
 
     // #############################################################################################

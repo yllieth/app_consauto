@@ -1,0 +1,19 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+	<item android:id="@+id/action_faireLePlein"
+	    android:title="@string/action_faireLePlein"
+	    android:orderInCategory="1"
+	    android:showAsAction="ifRoom|withText"
+		android:icon="@drawable/ic_ajouter" />
+
+	<item android:id="@+id/action_main"
+	    android:title="@string/action_main"
+	    android:orderInCategory="99"
+	    android:showAsAction="never"
+		android:icon="@drawable/ic_home"/>
+
+	<item android:id="@+id/action_settings"
+	    android:title="@string/action_settings"
+	    android:orderInCategory="100"
+	    android:showAsAction="never"
+		android:icon="@drawable/ic_parametres"/>
+</menu>
