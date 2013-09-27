@@ -2,6 +2,7 @@ package syl.consauto.app;
 
 import android.database.Cursor;
 
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -111,6 +112,14 @@ public class RecordPlein {
     public RecordPlein setPrix(float prix) {
         this.prix = prix;
         return this;
+    }
+
+    public float getPrixAuLitre() {
+        DecimalFormat formatter = new DecimalFormat("0.000");
+
+        return (quantite == 0)
+            ? 0
+            : Float.parseFloat(formatter.format(prix / quantite));
     }
 
     public float getDistance() {
