@@ -44,7 +44,8 @@
 			    android:id="@+id/date_form_plein_date"
 			    android:layout_column="1"
 			    android:clickable="true"
-			    android:onClick="showDatePickerDialog"/>
+			    android:onClick="showDatePickerDialog"
+			    android:focusable="false" />
 	    </TableRow>
 
 	    <TableRow
