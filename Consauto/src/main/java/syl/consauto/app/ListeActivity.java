@@ -1,10 +1,12 @@
 package syl.consauto.app;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,11 +15,65 @@ import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
+
 public class ListeActivity extends Activity {
 
     // #############################################################################################
     // ###                                       VARIABLES                                       ###
     // #############################################################################################
+
+    /**
+     * Somme les prix de tous les pleins pour afficher le total.
+     *
+     * @return {@link android.R.integer}
+     */
+    private float totalPrix;
+
+    /**
+     * Somme les distance de tous les pleins pour afficher le prix total du kilomètre.
+     * On n'affiche pas la distance totale parcourue avec les pleins.
+     *
+     * @return {@link android.R.integer}
+     */
+    private float totalDistance;
+
+    /**
+     * Format les nombres décimaux avec 2 chiffres après la virgule
+     *
+     * @return {@link java.text.DecimalFormat}
+     */
+    private DecimalFormat formatterDec2;
+
+    /**
+     * Format les nombres décimaux avec 3 chiffres après la virgule
+     *
+     * @return {@link java.text.DecimalFormat}
+     */
+    private DecimalFormat formatterDec3;
+
+    /**
+     * Label ({@link android.widget.TextView}) qui affiche le somme des prix de chaque pleins enregistrés
+     *
+     * @return {@link android.widget.TextView}
+     */
+    private TextView txt_total_prix;
+
+    /**
+     * Label ({@link android.widget.TextView}) qui affiche le prix au kilomètre
+     *
+     * @return {@link android.widget.TextView}
+     */
+    private TextView txt_total_prixDistance;
+
+
+
+    private float cache_val_prix;
+    private float cache_val_distance;
+    private int   cache_val_id;
+    private List<Integer> cache_val_ids;
 
     // #############################################################################################
     // ###                                     CONSTRUCTEURS                                     ###
@@ -32,6 +88,10 @@ public class ListeActivity extends Activity {
     @Override
     public void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
+
+        formatterDec2 = new DecimalFormat("0.00");
+        formatterDec3 = new DecimalFormat("0.000");
+        addListFooter();
         populateList();
     }
 
@@ -120,6 +180,9 @@ public class ListeActivity extends Activity {
      * @author Sylvain{26/09/2013}
      */
     private void populateList() {
+        totalPrix = 0;
+        totalDistance = 0;
+
         // récupération des données
         SQLiteDatabase bdd = new ConnexionBDD(this).open();
         Cursor cursor = bdd.rawQuery(RecordPleinHandler.getAllTxtQuery(), null);
@@ -155,24 +218,26 @@ public class ListeActivity extends Activity {
                 TextView textView = (TextView) view;
 
                 if (column == RecordPleinHandler.NUM_FIELD_PRIX) {
-                    float prix = Float.parseFloat(cursor.getString(column));
+                    float prix = Float.parseFloat(cursor.getString(column)) / RecordPleinHandler.STORAGE_COEFF_PRIX;
+                    computePrixDistance(cursor.getInt(RecordPleinHandler.NUM_FIELD_ID), column, prix);
                     String lstPrix = (prix > 0)
-                            ? String.valueOf(prix / RecordPleinHandler.STORAGE_COEFF_PRIX)
+                            ? String.valueOf(prix)
                             : "--";
                     textView.setText(lstPrix + " €");
                     return true;
                 } else if (column == RecordPleinHandler.NUM_FIELD_CONSOMMATION) {
                     if (cursor.getString(column) != null) {
-                        float conso = Float.parseFloat(cursor.getString(column));
-                        textView.setText(String.valueOf(conso / RecordPleinHandler.STORAGE_COEFF_CONSOMMATION) + " l/100");
+                        float conso = Float.parseFloat(cursor.getString(column)) / RecordPleinHandler.STORAGE_COEFF_CONSOMMATION;
+                        textView.setText(String.valueOf(conso) + " l/100");
                     } else {
                         textView.setText("");
                     }
                     return true;
                 } else if (column == RecordPleinHandler.NUM_FIELD_DISTANCE) {
                     if (cursor.getString(column) != null) {
-                        float distance = Float.parseFloat(cursor.getString(column));
-                        textView.setText(String.valueOf(distance / RecordPleinHandler.STORAGE_COEFF_DISTANCE) + " km");
+                        float distance = Float.parseFloat(cursor.getString(column)) / RecordPleinHandler.STORAGE_COEFF_DISTANCE;
+                        computePrixDistance(cursor.getInt(RecordPleinHandler.NUM_FIELD_ID), column, distance);
+                        textView.setText(String.valueOf(distance) + " km");
                     } else {
                         textView.setText("");
                     }
@@ -191,11 +256,66 @@ public class ListeActivity extends Activity {
             @Override
             public void onItemClick(AdapterView<?> parentView, View childView, int position, long id) {
                 //RecordPlein recordPlein = new RecordPlein((Cursor) parentView.getItemAtPosition(position));
-
                 Intent i = new Intent(getApplicationContext(), FaireLePleinActivity.class);
                 i.putExtra("editID", id);
                 startActivity(i);
             }
         });
+    }
+
+    /**
+     * Met à jour les totaux (somme des prix et prix du kilomètre) placés en dessous de la liste
+     *
+     * @return void
+     * @author Sylvain{27/09/2013}
+     */
+    private void computePrixDistance(int id, int column, float value) {
+        if (column == RecordPleinHandler.NUM_FIELD_PRIX) {
+            cache_val_prix = value;
+        } else if (column == RecordPleinHandler.NUM_FIELD_DISTANCE) {
+            cache_val_distance = value;
+        } else {
+            return;
+        }
+
+        if (cache_val_prix > 0 && cache_val_distance > 0 && cache_val_id == id && cache_val_ids.contains(id) == false) {
+            totalDistance += cache_val_distance;
+            totalPrix += cache_val_prix;
+            cache_val_prix = 0;
+            cache_val_distance = 0;
+            cache_val_ids.add(id);
+            updateFooter();
+        } else {
+            cache_val_id = id;
+        }
+    }
+
+    private void updateFooter() {
+        String total_prixDistance = (totalDistance > 0)
+                ? formatterDec3.format(totalPrix / totalDistance)
+                : "--";
+
+        String total_prix = (totalPrix > 0)
+                ? formatterDec2.format(totalPrix)
+                : "--";
+
+        txt_total_prix.setText(total_prix + " €");
+        txt_total_prixDistance.setText(total_prixDistance + " €/km");
+    }
+
+    /**
+     * Ajoute dynamiquement le layout du footer en dessous de la liste en utilisant un {@code addViewFooter()}
+     *
+     * @return void
+     * @author Sylvain{27/09/2013}
+     */
+    private void addListFooter() {
+        ListView listView = (ListView) findViewById(R.id.lst_pleins);
+        View footerView = ((LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.liste_footer, null, false);
+        listView.addFooterView(footerView);
+
+        txt_total_prix = (TextView) findViewById(R.id.txt_liste_total_prix);
+        txt_total_prixDistance = (TextView) findViewById(R.id.txt_liste_total_prixDistance);
+        cache_val_ids = new ArrayList<Integer>();
     }
 }
