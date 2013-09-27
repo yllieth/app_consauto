@@ -185,7 +185,7 @@ public class ListeActivity extends Activity {
 
         // récupération des données
         SQLiteDatabase bdd = new ConnexionBDD(this).open();
-        Cursor cursor = bdd.rawQuery(RecordPleinHandler.getAllTxtQuery(), null);
+        Cursor cursor = bdd.rawQuery(RecordPleinHandler.getAllTxtQuery() + " ORDER BY " + RecordPleinHandler.FIELD_DATE + " DESC", null);
 
         // maping pour indiquer quelle données va dans quelle partie du layout d'une ligne de la liste
         String[] fromFieldNames = new String[]{
