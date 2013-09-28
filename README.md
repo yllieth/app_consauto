@@ -10,11 +10,14 @@ Extrait du Manifest
 
 ### Prérequis : 
 > android:minSdkVersion="7"
+>
 > android:targetSdkVersion="16"
 
 ### Version :
 > android:versionCode="1"
+>
 > android:versionName="1.0"
+>
 > ```php private static final int DATABASE_VERSION = 1; ```
 
 ### Autorisations : 
