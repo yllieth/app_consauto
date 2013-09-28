@@ -264,7 +264,7 @@ public class RecordPleinHandler {
     {
         ContentValues values = new ContentValues();
 
-        values.put(FIELD_DATE,     record.getFormattedDate());
+        values.put(FIELD_DATE,     record.getFormattedDate("yyyy-MM-dd"));
         values.put(FIELD_CARBURANT,record.getCarburant());
         values.put(FIELD_QUANTITE, Math.round(record.getQuantite() * STORAGE_COEFF_QUANTITE));
         values.put(FIELD_PRIX,     Math.round(record.getPrix() * STORAGE_COEFF_PRIX));

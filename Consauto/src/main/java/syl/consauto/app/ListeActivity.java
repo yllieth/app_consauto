@@ -16,7 +16,10 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
 import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class ListeActivity extends Activity {
@@ -217,7 +220,18 @@ public class ListeActivity extends Activity {
             public boolean setViewValue(View view, Cursor cursor, int column) {
                 TextView textView = (TextView) view;
 
-                if (column == RecordPleinHandler.NUM_FIELD_PRIX) {
+                if (column == RecordPleinHandler.NUM_FIELD_DATE) {
+                    SimpleDateFormat decode = new SimpleDateFormat(getString(R.string.format_date_bdd));
+                    SimpleDateFormat encode = new SimpleDateFormat(getString(R.string.format_date_standard));
+                    Date date;
+                    try {
+                        date = decode.parse(cursor.getString(column));
+                    } catch (ParseException e) {
+                        date = new Date();
+                    }
+                    textView.setText(encode.format(date));
+                    return true;
+                } else if (column == RecordPleinHandler.NUM_FIELD_PRIX) {
                     float prix = Float.parseFloat(cursor.getString(column)) / RecordPleinHandler.STORAGE_COEFF_PRIX;
                     computePrixDistance(cursor.getInt(RecordPleinHandler.NUM_FIELD_ID), column, prix);
                     String lstPrix = (prix > 0)

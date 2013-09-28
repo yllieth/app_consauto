@@ -12,6 +12,8 @@
 
 	<!-- formats -->
 	<string name="format_date_standard">dd / MM / yyyy</string>
+	<string name="format_date_bdd">yyyy-MM-dd</string>
+
 	<string name="new_plein_choix_carburant">Carburant :</string>
 	<string name="form_plein_choix_carburant">Carburant :</string>
 </resources>
