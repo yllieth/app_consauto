@@ -28,5 +28,5 @@ Fonctionnalités
 
 ![Accueil](screenshots/20130928_accueil.png "`MainActivity`")
 ![Saisir un plein](screenshots/20130928_ajouter.png "`FaireLePleinActivity`")
-![Liste des pleins enregistrés](screenshots/20130928_lister.png "`ListeActivity`")
+![Liste des pleins enregistrés](screenshots/20131001_lister.png "`ListeActivity`")
 ![Modifier un plein](screenshots/20130928_modifier.png "`FaireLePleinActivity`")
