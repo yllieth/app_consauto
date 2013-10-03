@@ -132,8 +132,17 @@ public class ListeActivity extends Activity {
             case R.id.action_faireLePlein:
                 startActivity(new Intent(this, FaireLePleinActivity.class));
                 return true;
+
+            case R.id.action_graphiques:
+                startActivity(new Intent(this, GraphActivity.class));
+                return true;
+
             case R.id.action_main:
                 startActivity(new Intent(this, MainActivity.class));
+                return true;
+
+            case R.id.action_settings:
+                startActivity(new Intent(this, SettingsActivity.class));
                 return true;
         }
         return false;

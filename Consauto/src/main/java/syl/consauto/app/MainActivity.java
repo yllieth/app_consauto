@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
 public class MainActivity extends Activity {
@@ -52,6 +51,10 @@ public class MainActivity extends Activity {
                 startActivity(new Intent(this, ListeActivity.class));
                 return true;
 
+            case R.id.action_graphiques:
+                startActivity(new Intent(this, GraphActivity.class));
+                return true;
+
         }
         return false;
     }
@@ -62,6 +65,10 @@ public class MainActivity extends Activity {
 
     public void startListeActivity(View view) {
         startActivity(new Intent(view.getContext(), ListeActivity.class));
+    }
+
+    public void startGraphsActivity(View view) {
+        startActivity(new Intent(view.getContext(), GraphActivity.class));
     }
 
     public void startSettingsActivity(View view) {

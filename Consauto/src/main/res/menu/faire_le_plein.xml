@@ -5,6 +5,12 @@
 	    android:showAsAction="ifRoom|withText"
 		android:icon="@drawable/ic_liste" />
 
+	<item android:id="@+id/action_graphiques"
+	      android:title="@string/action_graphiques"
+	      android:orderInCategory="98"
+	      android:showAsAction="never"
+	      android:icon="@drawable/ic_graph" />
+
 	<item android:id="@+id/action_main"
 	      android:title="@string/action_main"
 	      android:orderInCategory="99"

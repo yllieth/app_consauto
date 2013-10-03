@@ -2,18 +2,21 @@
 <resources>
 
     <string name="app_name">consauto</string>
+	<string name="hello_world">Hello world!</string>
+	<string name="pref_header_defaults">Paramètres par défaut</string>
+	<string name="new_plein_choix_carburant">Carburant :</string>
+	<string name="form_plein_choix_carburant">Carburant :</string>
+
+
+	<!-- Activities -->
 	<string name="action_main">Accueil</string>
     <string name="action_settings">Paramètres</string>
     <string name="action_faireLePlein">Nouveau plein</string>
 	<string name="action_voirListe">Liste</string>
-    <string name="hello_world">Hello world!</string>
+	<string name="action_graphiques">Graphiques</string>
 
-    <string name="pref_header_defaults">Paramètres par défaut</string>
 
 	<!-- formats -->
 	<string name="format_date_standard">dd / MM / yyyy</string>
 	<string name="format_date_bdd">yyyy-MM-dd</string>
-
-	<string name="new_plein_choix_carburant">Carburant :</string>
-	<string name="form_plein_choix_carburant">Carburant :</string>
 </resources>
