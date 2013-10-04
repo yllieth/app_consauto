@@ -180,7 +180,10 @@ public class FaireLePleinActivity extends Activity {
                 editID = (int) extras.getLong("editID");
             }
         } else {
-            editID = Integer.parseInt((String) savedInstanceState.getSerializable("editID"));
+            String row_editID = (String) savedInstanceState.getSerializable("editID");
+            if (row_editID != null) {
+                editID = Integer.parseInt(row_editID);
+            }
         }
     }
 
