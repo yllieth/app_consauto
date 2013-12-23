@@ -353,6 +353,11 @@ public class FaireLePleinActivity extends Activity {
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.liste_carburants, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinChoixCarburant.setAdapter(adapter);
+		
+		// masque les champs Distance / Consommation / Plein
+		findViewById(R.id.txt_form_plein_more).setVisibility(View.INVISIBLE);
+		findViewById(R.id.layout_plein_more).setVisibility(View.INVISIBLE);
+		findViewById(R.id.chk_form_plein_complet).setVisibility(View.INVISIBLE);
     }
 
     /**
@@ -377,6 +382,11 @@ public class FaireLePleinActivity extends Activity {
         chkComplet.setChecked(recordPlein.isPlein());
 
         updatePrixLitre(editPrix, editQuantite, editPrixLitre);
+
+		// affiche les champs Distance / Consommation / Plein
+		findViewById(R.id.txt_form_plein_more).setVisibility(View.VISIBLE);
+		findViewById(R.id.layout_plein_more).setVisibility(View.VISIBLE);
+		findViewById(R.id.chk_form_plein_complet).setVisibility(View.VISIBLE);
     }
 
     /**

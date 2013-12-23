@@ -177,7 +177,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
-        android:layout_marginLeft="5dp">
+        android:layout_marginLeft="5dp"
+		android:id="@+id/layout_plein_more">
 
         <TableRow
             android:layout_width="fill_parent"
@@ -239,6 +240,20 @@
                 android:layout_column="2"
                 android:layout_marginLeft="5dp" />
         </TableRow>
+		
+		<TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+			
+			<CheckBox
+				android:layout_span="2"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:text="@string/form_plein_ras_bord"
+				android:id="@+id/chk_form_plein_complet"
+				android:checked="true" />
+			
+		</TableRow>
 
     </TableLayout>
 
@@ -248,19 +263,13 @@
         android:layout_height="fill_parent"
         android:layout_gravity="left|center_vertical">
 
-        <CheckBox
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/form_plein_ras_bord"
-            android:id="@+id/chk_form_plein_complet"
-            android:checked="true" />
-
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/form_plein_enregistrer"
             android:id="@+id/bt_form_plein_save"
             android:layout_gravity="center" />
+		
     </LinearLayout>
 
 </LinearLayout>
