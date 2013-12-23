@@ -44,6 +44,13 @@ public class ListeActivity extends Activity {
     private float totalDistance;
 
     /**
+     * Format les nombres décimaux avec 1 chiffre après la virgule
+     *
+     * @return {@link java.text.DecimalFormat}
+     */
+    private DecimalFormat formatterDec1;
+
+    /**
      * Format les nombres décimaux avec 2 chiffres après la virgule
      *
      * @return {@link java.text.DecimalFormat}
@@ -71,6 +78,13 @@ public class ListeActivity extends Activity {
      */
     private TextView txt_total_prixDistance;
 
+    /**
+     * Label ({@link android.widget.TextView}) qui affiche le total de distance parcourue avec tous les pleins
+     *
+     * @return {@link android.widget.TextView}
+     */
+    private TextView txt_total_distance;
+
 
 
     private float cache_val_prix;
@@ -92,6 +106,7 @@ public class ListeActivity extends Activity {
     public void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
 
+        formatterDec1 = new DecimalFormat("0.0");
         formatterDec2 = new DecimalFormat("0.00");
         formatterDec3 = new DecimalFormat("0.000");
         addListFooter();
@@ -117,8 +132,17 @@ public class ListeActivity extends Activity {
             case R.id.action_faireLePlein:
                 startActivity(new Intent(this, FaireLePleinActivity.class));
                 return true;
+
+            case R.id.action_graphiques:
+                startActivity(new Intent(this, GraphActivity.class));
+                return true;
+
             case R.id.action_main:
                 startActivity(new Intent(this, MainActivity.class));
+                return true;
+
+            case R.id.action_settings:
+                startActivity(new Intent(this, SettingsActivity.class));
                 return true;
         }
         return false;
@@ -313,7 +337,12 @@ public class ListeActivity extends Activity {
                 ? formatterDec2.format(totalPrix)
                 : "--";
 
+        String total_distance = (totalDistance > 0)
+                ? formatterDec1.format(totalDistance)
+                : "--";
+
         txt_total_prix.setText(total_prix + " €");
+        txt_total_distance.setText(total_distance + " km");
         txt_total_prixDistance.setText(total_prixDistance + " €/km");
     }
 
@@ -328,7 +357,8 @@ public class ListeActivity extends Activity {
         View footerView = ((LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.liste_footer, null, false);
         listView.addFooterView(footerView);
 
-        txt_total_prix = (TextView) findViewById(R.id.txt_liste_total_prix);
+        txt_total_prix         = (TextView) findViewById(R.id.txt_liste_total_prix);
+        txt_total_distance     = (TextView) findViewById(R.id.txt_liste_total_distance);
         txt_total_prixDistance = (TextView) findViewById(R.id.txt_liste_total_prixDistance);
         cache_val_ids = new ArrayList<Integer>();
     }

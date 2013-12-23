@@ -10,14 +10,11 @@ Extrait du Manifest
 
 ### Prérequis : 
 > android:minSdkVersion="7"
->
 > android:targetSdkVersion="16"
 
 ### Version :
 > android:versionCode="1"
->
 > android:versionName="1.0"
->
 > ```php private static final int DATABASE_VERSION = 1; ```
 
 ### Autorisations : 
@@ -26,7 +23,8 @@ Extrait du Manifest
 Fonctionnalités
 ---------------
 
-![Accueil](screenshots/20130928_accueil.png "`MainActivity`")
-![Saisir un plein](screenshots/20130928_ajouter.png "`FaireLePleinActivity`")
-![Liste des pleins enregistrés](screenshots/20130928_lister.png "`ListeActivity`")
-![Modifier un plein](screenshots/20130928_modifier.png "`FaireLePleinActivity`")
+![Accueil `MainActivity`](screenshots/20131003_accueil.png)
+![Saisir un plein `FaireLePleinActivity`](screenshots/20130928_ajouter.png)
+![Liste des pleins enregistrés `ListeActivity`](screenshots/20131001_lister.png)
+![Modifier un plein `FaireLePleinActivity`](screenshots/20130928_modifier.png)
+![Graphiqe `GraphActivity`](screenshots/20131003_graphiques.png)

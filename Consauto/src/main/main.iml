@@ -12,6 +12,7 @@
       <sourceFolder url="file://$MODULE_DIR$/gen" isTestSource="false" />
     </content>
     <orderEntry type="jdk" jdkName="Android 4.2.2 Platform" jdkType="Android SDK" />
+    <orderEntry type="library" exported="" name="org.achartengine.GraphicalActivity" level="project" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
 </module>

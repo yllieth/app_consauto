@@ -11,6 +11,12 @@
 	    android:showAsAction="ifRoom"
 		android:icon="@drawable/ic_liste" />
 
+	<item android:id="@+id/action_graphiques"
+	      android:title="@string/action_graphiques"
+	      android:orderInCategory="98"
+	      android:showAsAction="never"
+	      android:icon="@drawable/ic_graph"/>
+
 	<item android:id="@+id/action_settings"
 	    android:title="@string/action_settings"
 	    android:orderInCategory="100"

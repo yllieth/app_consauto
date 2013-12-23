@@ -12,7 +12,8 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme"
+	    android:debuggable="true" >
         <activity
             android:name="MainActivity"
             android:label="@string/app_name" >
@@ -32,8 +33,14 @@
         />
 	    <activity
 		    android:name=".ListeActivity"
-	        android:label="Liste"
-		/>
+		    android:label="@string/action_voirListe"
+		    />
+	    <activity
+		    android:name=".GraphActivity"
+		    android:label="@string/action_graphiques"
+		    />
+
+	    <activity android:name="org.achartengine.GraphicalActivity"></activity>
     </application>
 
 </manifest>

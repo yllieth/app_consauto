@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="list_total_prix">Total (prix du km)</string>
-	<string name="liste_total_prix_km">Total (prix)</string>
+	<string name="liste_total_prix_km">Total (prix du km)</string>
+	<string name="liste_total_prix">Total</string>
 </resources>

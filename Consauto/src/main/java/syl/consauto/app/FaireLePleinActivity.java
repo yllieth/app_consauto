@@ -180,7 +180,10 @@ public class FaireLePleinActivity extends Activity {
                 editID = (int) extras.getLong("editID");
             }
         } else {
-            editID = Integer.parseInt((String) savedInstanceState.getSerializable("editID"));
+            String row_editID = (String) savedInstanceState.getSerializable("editID");
+            if (row_editID != null) {
+                editID = Integer.parseInt(row_editID);
+            }
         }
     }
 
@@ -328,8 +331,17 @@ public class FaireLePleinActivity extends Activity {
             case R.id.action_liste:
                 startActivity(new Intent(this, ListeActivity.class));
                 return true;
+
+            case R.id.action_graphiques:
+                startActivity(new Intent(this, GraphActivity.class));
+                return true;
+
             case R.id.action_main:
                 startActivity(new Intent(this, MainActivity.class));
+                return true;
+
+            case R.id.action_settings:
+                startActivity(new Intent(this, SettingsActivity.class));
                 return true;
         }
         return false;

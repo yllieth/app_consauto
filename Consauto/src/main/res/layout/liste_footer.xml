@@ -25,7 +25,7 @@
 				android:layout_column="0"
 				android:textAppearance="?android:attr/textAppearanceSmall"
 				android:id="@+id/txt_liste_total_prix_label"
-				android:text="@string/liste_total_prix_km"
+				android:text="@string/liste_total_prix"
 				android:textColor="#666"
 				android:layout_marginLeft="15dip" />
 
@@ -36,6 +36,17 @@
 				android:textAppearance="?android:attr/textAppearanceSmall"
 				android:id="@+id/txt_liste_total_prix"
 				android:text="!TOTAL PRIX!"
+				android:textColor="#666"
+				android:layout_marginLeft="15dip"
+				android:layout_marginRight="15dip" />
+
+			<TextView
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:layout_column="2"
+				android:textAppearance="?android:attr/textAppearanceSmall"
+				android:id="@+id/txt_liste_total_distance"
+				android:text="!TOTAL KM!"
 				android:textColor="#666"
 				android:layout_marginLeft="15dip"
 				android:layout_marginRight="15dip" />
@@ -52,7 +63,7 @@
 				android:layout_column="0"
 				android:textAppearance="?android:attr/textAppearanceSmall"
 				android:id="@+id/txt_liste_total_prixDistance_label"
-				android:text="@string/list_total_prix"
+				android:text="@string/liste_total_prix_km"
 				android:textColor="#666"
 				android:layout_marginLeft="15dip" />
 
